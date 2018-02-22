@@ -761,7 +761,43 @@ atmega1284_w5500_isp: isp
 # luminet_isp: EFUSE = FE
 # luminet_isp: isp
 
+COMMA:=,
 
+mduino: TARGET = mduino
+mduino: MCU_TARGET = atmega2560
+mduino: CFLAGS += '-D__WIZ_W5100__' '-DBAUD_RATE=115200'
+mduino: AVR_FREQ = 16000000L
+mduino: LDSECTIONS  = -Wl,--section-start=.text=0x3e000
+mduino: $(PROGRAM)_mduino.hex
+mduino: $(PROGRAM)_mduino.lst
+mduino_isp: mduino
+mduino_isp: TARGET = mduino
+mduino_isp: MCU_TARGET = atmega2560
+# Low power xtal (16MHz) 16KCK/14CK+65ms
+mduino_isp: LFUSE = FF
+# 4069 byte boot
+mduino_isp: HFUSE = D8
+# 2.7V brownout
+mduino_isp: EFUSE = FD
+mduino_isp: isp
+
+mduinoplus: TARGET = mduinoplus
+mduinoplus: MCU_TARGET = atmega2560
+mduinoplus: CFLAGS += '-D__WIZ_W5500__' '-DBAUD_RATE=115200'
+mduinoplus: AVR_FREQ = 16000000L
+mduinoplus: LDSECTIONS  = -Wl,--section-start=.text=0x3e000
+mduinoplus: $(PROGRAM)_mduinoplus.hex
+mduinoplus: $(PROGRAM)_mduinoplus.lst
+mduinoplus_isp: mduinoplus
+mduinoplus_isp: TARGET = mduinoplus
+mduinoplus_isp: MCU_TARGET = atmega2560
+# Low power xtal (16MHz) 16KCK/14CK+65ms
+mduinoplus_isp: LFUSE = FF
+# 4069 byte boot
+mduinoplus_isp: HFUSE = D8
+# 2.7V brownout
+mduinoplus_isp: EFUSE = FD
+mduinoplus_isp: isp
 
 #
 # Generic build instructions
