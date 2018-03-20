@@ -763,6 +763,19 @@ atmega1284_w5500_isp: isp
 
 COMMA:=,
 
+ifneq ($(IP_ADDR),)
+DEFS+=-DIP_ADDR=$(subst .,$(COMMA),$(IP_ADDR))
+endif
+ifdef GW_ADDR
+DEFS+=-DGW_ADDR=$(subst .,$(COMMA),$(GW_ADDR))
+endif
+ifdef SUB_MASK
+DEFS+=-DSUB_MASK=$(subst .,$(COMMA),$(SUB_MASK))
+endif
+ifdef MAC_ADDR
+DEFS+=-DMAC_ADDR=$(subst -,$(COMMA),$(subst :,$(COMMA),$(MAC_ADDR)))
+endif
+
 mduino: TARGET = mduino
 mduino: MCU_TARGET = atmega2560
 mduino: CFLAGS += '-D__WIZ_W5100__' '-DBAUD_RATE=115200'
